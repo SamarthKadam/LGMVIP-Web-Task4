@@ -108,15 +108,80 @@ const FindAnswer=function()
         i=i+1;
     }
 
-    // console.log(Anotherstack.pop());
     buttonQuestion.value=Anotherstack.pop();
     clearStuff();
 }
 
+const Isoperater=function(c)
+{
+    if(c=='*'||c=='/'|| c=='%'||c=='+'||c=='-')
+    {
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+const ModifyArray=function()
+{
+    // let index=0;
+    // let MArray=[];
+    // while(index<inputOper.length)
+    // {
+    //     if(!Isoperater(inputOper[index]))
+    //     {
+    //         let str='';
+    //         while(!(Isoperater(inputOper[index])))
+    //         {
+    //             str+=inputOper[index];
+    //             index++;
+    //         }
+    //         MArray.push(str);
+    //     }
+    //     else{
+    //         MArray.push(inputOper[index]);
+    //         index=index+2;
+    //     }
+    // }
+    // inputOper=ModifyArray;
+    let index=0;
+    let AuxArray=[];
+    while(index<inputOper.length)
+    {
+        if(!(Isoperater(inputOper[index])))
+        {
+            let str='';
+            while(!(Isoperater(inputOper[index])) && index<inputOper.length)
+            {
+                str+=inputOper[index];
+                index++;
+            }
+            AuxArray.push(str);
+        }
+        else{
+            AuxArray.push(inputOper[index]);
+            index=index+2;
+        }
+    }
+    inputOper=AuxArray;
+}
+
+
 const evaluatePF=function()
 {
     let i=0;
-    console.log(inputOper);
+  inputOper=inputOper.split('');
+  let l=0;
+  for(l=0;l<inputOper.length;l++)
+  {
+    if(isNaN(inputOper[l]) && inputOper[l]!='x')
+    {
+        inputOper.splice(l+1,0,'x');
+    }
+  }
+  ModifyArray();
+
    while(i<inputOper.length)
     {
         if(!isNaN(inputOper[i]))
@@ -139,7 +204,7 @@ const evaluatePF=function()
     }
     while(stackPointer!=-1)
     {
-        result.push(stack.shift());
+        result.push(stack.pop());
         stackPointer--;
     }
     FindAnswer();
